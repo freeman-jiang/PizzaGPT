@@ -538,6 +538,20 @@ class Crawler:
         print("Parsing time: {:0.2f} seconds".format(time.time() - start))
         return elements_of_interest
 
+commands = [
+  "CLICK 9",
+  "TYPE 15 330 philip st",
+#   "CLICK 50",
+#   "CLICK 35",
+#   "TYPESUBMIT 30 N2L 3W9",
+#   "CLICK 23",
+#   "CLICK 23",
+#   "CLICK 24",
+#   "CLICK 60",
+#   "CLICK 88",
+#   "CLICK 57",
+  
+]
 
 if (
         __name__ == "__main__"
@@ -621,12 +635,16 @@ if (
                 print("----------------\n" +
                       browser_content + "\n----------------\n")
 
-            gpt_cmd = input("Enter GPT command: ")
+            if len(commands) > 0:
+                gpt_cmd = commands.pop(0)
+            else:
+                gpt_cmd = input("Enter GPT command: ")
             
             if len(gpt_cmd) > 0:
                 print("Suggested command: " + gpt_cmd)
 
-            command = input()
+            command = ""
+            # command = input()
             if command == "r" or command == "":
                 run_cmd(gpt_cmd)
             elif command == "g":
