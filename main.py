@@ -414,6 +414,7 @@ class Crawler:
             node_name = element.get("node_name")
             node_value = element.get("node_value")
             is_clickable = element.get("is_clickable")
+            print(node_name, is_clickable, node_value, element)
             origin_x = element.get("origin_x")
             origin_y = element.get("origin_y")
             center_x = element.get("center_x")
@@ -450,8 +451,11 @@ class Crawler:
                     and converted_node_name != "input"
                     and converted_node_name != "img"
                     and converted_node_name != "textarea"
+                    and converted_node_name != "select"
             ) and inner_text.strip() == "":
                 continue
+            
+
 
             page_element_buffer[id_counter] = element
 
@@ -469,8 +473,12 @@ class Crawler:
         return elements_of_interest
 
 commands = [
-  "CLICK 9",
-  "TYPE 15 330 philip st",
+    # "TYPE 54 Kitchner"
+  "CLICK 68",
+  "CLICK 12",
+  "CLICK 12",
+  "CLICK 32",
+#   "TYPE 15 330 philip st",
 #   "CLICK 50",
 #   "CLICK 35",
 #   "TYPESUBMIT 30 N2L 3W9",
@@ -555,7 +563,8 @@ if (
 
     gpt_cmd = ""
     prev_cmd = ""
-    _crawler.go_to_page("https://www.dominos.ca/en/pages/order/#!/locations/search/")
+    # _crawler.go_to_page("https://weborders.pizzanova.com/PNAPI/order/")
+    _crawler.go_to_page("https://weborders.pizzanova.com/PNAPI/order/product/banquet-cheddar")
     try:
         while True:
             browser_content = "\n".join(_crawler.crawl())

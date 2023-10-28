@@ -1,2 +1,10 @@
+claude/**
+examples/**
+imggpt/**
+LLaVA/**
+clause
+examples
+imggpt
+LLaVA
 .env
-.venv
+model
