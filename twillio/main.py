@@ -158,6 +158,10 @@ public_url = ""
 @app.route('/make_call', methods=['GET'])
 def make_call():
     """Initiate a call from Twilio."""
+    location = request.args.get('location')
+    phone = request.args.get('phone')
+
+    print(f"Location {location} phone {phone}")
     call = twilio_client.calls.create(
         to=number_to_call,  # Replace with the desired 'to' number
         from_=twilio_phone_number,  # Your Twilio phone number
