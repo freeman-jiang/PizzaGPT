@@ -30,18 +30,23 @@ model = vosk.Model('model')
 CL = '\x1b[0K'
 BS = '\x08'
 
+say_queue = []
 
+host = ""
 @app.route('/call', methods=['POST'])
 def call():
+    global host
     """Accept a phone call."""
     response = VoiceResponse()
     start = Start()
+    host = request.host
     start.stream(url=f'wss://{request.host}/stream')
     response.append(start)
     response.say('Please leave a message')
     response.pause(length=60)
     print(f'Incoming call from {request.form["From"]}')
     return str(response), 200, {'Content-Type': 'text/xml'}
+
 
 
 @sock.route('/stream')
@@ -62,9 +67,22 @@ def stream(ws):
             if rec.AcceptWaveform(audio):
                 r = json.loads(rec.Result())
                 print(CL + r['text'] + ' ', end='', flush=True)
+                # print(call_id)
+                twilio_client.calls(call_id).update(twiml=f"""<Response>
+                                                    <Say> ahoy: {r['text']} </Say>
+                                                    <Start>
+                                                      <Stream url="wss://{host}/stream" />
+                                                    </Start>
+                                                    <Pause length="60" />
+                                                    </Response>
+                                                    """)
+
+                # twilio_client.calls(call_id).update(twiml='<Response><Say>Ahoy there</Say></Response>')
+
             else:
                 r = json.loads(rec.PartialResult())
                 print(CL + r['partial'] + BS * len(r['partial']), end='', flush=True)
+        
 # call = twilio_client.calls.create(
 #   # url="http://demo.twilio.com/docs/voice.xml",
 #   # to="+16044411171",
@@ -80,7 +98,9 @@ def stream(ws):
 # print(f'Incoming call from {request.form["From"]}')
 # return str(response), 200, {'Content-Type': 'text/xml'}
 
+call_id = 0
 public_url = ""
+
 @app.route('/make_call', methods=['GET'])
 def make_call():
   """Initiate a call from Twilio."""
@@ -89,6 +109,8 @@ def make_call():
       from_="+17326540954",  # Your Twilio phone number
       url=public_url + '/call', 
   )
+  global call_id
+  call_id = call.sid
   return call.sid
 
 if __name__ == '__main__':
