@@ -1,0 +1,64 @@
+URL: https://www.pizzapizza.ca/store/1/delivery
+Objective: Order a pizza to 151 Charles St W Suite 100, Kitchener, ON N2G 1H6. Pay using cash.
+----------------
+<link id=0 alt="Happy Halloween">Happy Halloween Get a $10 bonus egift card with the purchase of any $50 egift card or more. Offer valid from October 16th to October 31st, 2023.</link>
+<link id=1 alt="New Stromboli">New Stromboli A 10" pizza dough with your fave toppings, rolled into a delicious, cheesy handheld pizza on the go!</link>
+<link id=2 alt="Stuffed Crust Pizza">Stuffed Crust Pizza Your favourite pizza with our new stuffed crust, oozing with delicious melted mozzarella cheese!</link>
+<link id=3 alt="Fixed Rate Pizza">Fixed Rate Pizza XL 4-Topping Pizza! Don't get priced out of pizza! No matter how bad inflation gets, this pizza price stays the same!</link>
+<text id=4>ORDER ON OUR NEW APP!</text>
+<link id=5 alt="app-store"/>
+<link id=6 alt="play-store"/>
+<img id=7 app-promo/>
+<text id=8>We've updated our Mobile App for the IPhone, iPad, iPod Touch and Android Smartphones. Download for great features including order tracking, easy repeat ordering & in-app payment.</text>
+<img id=9 pizza pizza logo/>
+<link id=10>Restaurant Locator</link>
+<link id=11>Accessibility</link>
+<link id=12>Guarantee Policy</link>
+<link id=13>Privacy Policy</link>
+<link id=14>Terms and Conditions</link>
+<link id=15 aria-label="facebook icon"/>
+<link id=16 aria-label="instagram icon"/>
+<link id=17 aria-label="twitter icon"/>
+<text id=18>About Us</text>
+<link id=19>Since 1967</link>
+<link id=20>About Our Food</link>
+<link id=21>Our Quality</link>
+<link id=22>Nutrition</link>
+<link id=23>Menu FAQ</link>
+<text id=24>Franchising</text>
+<link id=25>Your Pizza Pizza</link>
+<link id=26>Franchising Basics</link>
+<link id=27>Franchise Opportunities</link>
+<link id=28>Meet The Teams</link>
+<link id=29>Get Answers</link>
+<link id=30>Contact Us</link>
+<text id=31>Company</text>
+<link id=32>Our Company</link>
+<link id=33>Leadership Team</link>
+<link id=34>Come Work Here</link>
+<link id=35>Community</link>
+<link id=36>Slices For Smiles</link>
+<link id=37>Environment</link>
+<link id=38>News</link>
+<link id=39>Investors</link>
+<text id=40>For You</text>
+<link id=41>For You</link>
+<link id=42>Contact Us</link>
+<link id=43>Club 11–11 Loyalty Program</link>
+<link id=44>Gift Cards</link>
+<link id=45>School Lunch Program</link>
+<link id=46>Corporate Catering</link>
+<link id=47>Contest</link>
+<link id=48>Customer Satisfaction Survey</link>
+<text id=49>This site is protected by reCAPTCHA and the Google</text>
+<link id=50>Privacy Policy</link>
+<text id=51>and</text>
+<link id=52>Terms of Service</link>
+<text id=53>apply.</text>
+<text id=54>Copyright</text>
+<text id=55>© Pizza Pizza 2023</text>
+<text id=56>Empty Cart</text>
+<text id=57>Adults and youth (ages 13 and older) need an average of 2,000 calories a day, and children (ages 4 to 12) need an average of 1,500 calories a day. However, individual needs vary.</text>
+----------------
+
+Suggested command: CLICK 46

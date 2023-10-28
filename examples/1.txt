@@ -1,0 +1,67 @@
+URL: https://weborders.pizzanova.com/PNAPI/order
+Objective: Order a pizza to 151 Charles St W Suite 100, Kitchener, ON N2G 1H6. Pay using cash.
+----------------
+<link id=0>Our Puro Promise</link>
+<link id=1>Menu</link>
+<link id=2>Primucci Recipes</link>
+<link id=3>Nutrition</link>
+<link id=4>Community</link>
+<link id=5>School Lunch Program</link>
+<link id=6>Gift Cards</link>
+<link id=7>Corporate</link>
+<link id=8>Careers</link>
+<link id=9>Store Locator</link>
+<img id=10 https://9c4218dc0446f2d2b397-295508ffa5f74d384009d07327dcda76.ssl.cf2.rackcdn.com//wp-content/themes/pizzanova/images/PizzaNova60_Animation_Horizontal.gif/>
+<link id=11 alt="https://9c4218dc0446f2d2b397-295508ffa5f74d384009d07327dcda76.ssl.cf2.rackcdn.com//wp-content/themes/pizzanova/images/site_logo.png"/>
+<link id=12>Signature Pizzas</link>
+<link id=13>Create Your Own</link>
+<link id=14>Other Favourites</link>
+<link id=15>Grocery Mercato</link>
+<link id=16>Specials</link>
+<link id=17>416-439-0000</link>
+<text id=18>outside the GTA (area code) 310-3300</text>
+<link id=19>My Location</link>
+<link id=20>My Account</link>
+<link id=21>0  My Cart</link>
+<img id=22/>
+<img id=23/>
+<text id=24><</text>
+<text id=25>></text>
+<link id=26/>
+<link id=27 alt="Featured category image"/>
+<link id=28 alt="Featured category image"/>
+<link id=29 alt="Featured category image"/>
+<img id=30 Pizza Nova Logo/>
+<text id=31>Welcome to Pizza Nova</text>
+<text id=32>To get started, please enter your city or postal code and choose delivery or pick-up.</text>
+<text id=33>Preferred Method of Service</text>
+<text id=34>Delivery</text>
+<text id=35>Pickup</text>
+<text id=36>Enter City or Postal Code</text>
+<input id=37 text City or Postal Code/>
+<link id=38>Cities we service</link>
+<link id=39>AJAX</link>
+<link id=40>ALLISTON</link>
+<link id=41>ANCASTER</link>
+<link id=42>ARNPRIOR</link>
+<link id=43>AURORA</link>
+<link id=44>BARRIE</link>
+<link id=45>BELLEVILLE</link>
+<link id=46>GORMLEY</link>
+<link id=47>GUELPH</link>
+<link id=48>HALTON HILLS</link>
+<link id=49>HAMILTON</link>
+<link id=50>HAWKESBURY</link>
+<link id=51>HAWKESTONE</link>
+<link id=52>HOLLAND LANDING</link>
+<link id=53>OSHAWA</link>
+<link id=54>OTONABEE</link>
+<link id=55>OTTAWA</link>
+<link id=56>OWEN SOUND</link>
+<link id=57>PALGRAVE</link>
+<link id=58>PEMBROKE</link>
+<link id=59>PENETANGUISHENE</link>
+<link id=60>Skip this step</link>
+----------------
+
+Suggested command: CLICK 60
