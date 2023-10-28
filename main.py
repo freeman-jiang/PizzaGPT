@@ -10,6 +10,7 @@ import time
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 
@@ -571,6 +572,7 @@ if (
         return msg
 
     def run_cmd(cmd):
+        print("Running cmd", cmd)
         cmd = cmd.split("\n")[0]
 
         if cmd.startswith("SCROLL UP"):
@@ -580,6 +582,7 @@ if (
         elif cmd.startswith("CLICK"):
             commasplit = cmd.split(",")
             id = commasplit[0].split(" ")[1]
+            print("Clicking", id)
             _crawler.click(id)
         elif cmd.startswith("TYPE"):
             spacesplit = cmd.split(" ")
@@ -597,26 +600,29 @@ if (
 
     objective = "Make a reservation for 2 at 7pm at bistro vida in menlo park"
     print("\nWelcome to natbot! What is your objective?")
-    i = input()
+    i = "Order pizza"
     if len(i) > 0:
         objective = i
 
     gpt_cmd = ""
     prev_cmd = ""
-    _crawler.go_to_page("google.com/search?q=pizza")
+    _crawler.go_to_page("https://www.dominos.ca/en/pages/order/#!/locations/search/")
     try:
         while True:
             browser_content = "\n".join(_crawler.crawl())
             prev_cmd = gpt_cmd
-            gpt_cmd = get_gpt_command(
-                objective, _crawler.page.url, prev_cmd, browser_content)
-            gpt_cmd = gpt_cmd.strip()
+            # gpt_cmd = get_gpt_command(
+            #     objective, _crawler.page.url, prev_cmd, browser_content)
+            # gpt_cmd = gpt_cmd.strip()
 
             if not quiet:
                 print("URL: " + _crawler.page.url)
                 print("Objective: " + objective)
                 print("----------------\n" +
                       browser_content + "\n----------------\n")
+
+            gpt_cmd = input("Enter GPT command: ")
+            
             if len(gpt_cmd) > 0:
                 print("Suggested command: " + gpt_cmd)
 
