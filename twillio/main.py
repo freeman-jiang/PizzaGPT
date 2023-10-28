@@ -69,7 +69,8 @@ def call():
 concat_response = ""
 last_processed: datetime.datetime = datetime.datetime.now()
 messages: list[dict[str, str]] = [
-    {"role": "system", "content": "Pretend you are a person at Communitech, which is an office space at 151 Charles St W Suite 100. Your only objective is to order a regular cheese pizza to 151 Charles St W Suite 100, Kitchener, ON N2G 1H6. You are on the phone. You will pay by cash later. Answer the pizza operator as succinctly as you can. In your first message, please say explicitly that you want to want to order the pizza to Communitech and state the address."},
+    {"role": "system", "content": "You are talking to a pizza operator over the phone"},
+    {"role": "user", "content": "Pretend you are a person at Communitech, which is an office space at 151 Charles St W Suite 100. Your only objective is to order a regular cheese pizza to 151 Charles St W Suite 100, Kitchener, ON N2G 1H6. You are on the phone. You will pay by cash later. Answer the pizza operator as succinctly as you can. In your first message, please say explicitly that you want to want to order the pizza to Communitech and state the address."},
 ]
 
 
