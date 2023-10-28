@@ -6,17 +6,14 @@ import json
 import os
 
 import openai
+import transcribe
 import vosk
-<<<<<<< HEAD
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_sock import ConnectionClosed, Sock
 from twilio.rest import Client
 from twilio.twiml.voice_response import Start, VoiceResponse
 
-=======
-import transcribe
->>>>>>> 97bb8c3 (transcribe)
 load_dotenv()
 
 # Set environment variables for your credentials
@@ -85,7 +82,7 @@ def stream(ws):
             audio = audioop.ulaw2lin(audio, 2)
             audio = audioop.ratecv(audio, 2, 1, 8000, 16000, None)[0]
 
-            print(transcribe.transcribe(audio))
+            # print(transcribe.transcribe(audio))
 
             if rec.AcceptWaveform(audio):
                 r = json.loads(rec.Result())
@@ -142,7 +139,6 @@ public_url = ""
 
 @app.route('/make_call', methods=['GET'])
 def make_call():
-<<<<<<< HEAD
     """Initiate a call from Twilio."""
     call = twilio_client.calls.create(
         to=number_to_call,  # Replace with the desired 'to' number
@@ -151,15 +147,6 @@ def make_call():
     )
     return call.sid
 
-=======
-  """Initiate a call from Twilio."""
-  call = twilio_client.calls.create(
-      to="+12365187890",  # Replace with the desired 'to' number
-      from_="+15812040089",  # Your Twilio phone number
-      url=public_url + '/call', 
-  )
-  return call.sid
->>>>>>> 97bb8c3 (transcribe)
 
 if __name__ == '__main__':
     from pyngrok import ngrok

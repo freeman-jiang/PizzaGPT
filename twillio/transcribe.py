@@ -1,13 +1,13 @@
-import whisper
-import numpy as np
 import ffmpeg
+import numpy as np
+import whisper
 
 model = whisper.load_model("base")
 
 
 def load_audio(file_bytes: bytes, sr: int = 16_000) -> np.ndarray:
-    from pydub import AudioSegment
     import numpy as np
+    from pydub import AudioSegment
 
     # Load the M4A audio file
     audio = AudioSegment.from_file(file_bytes, format="m4a")
@@ -22,7 +22,6 @@ def load_audio(file_bytes: bytes, sr: int = 16_000) -> np.ndarray:
     audio = np.array(audio.get_array_of_samples())
     return np.frombuffer(audio, np.int16).flatten().astype(np.float32) / 32768.0
 
-audio = load_audio("/Users/henry/Documents/triplecheese.m4a")
 
 def transcribe(audio: np.ndarray) -> str:
     result = model.transcribe(audio)
