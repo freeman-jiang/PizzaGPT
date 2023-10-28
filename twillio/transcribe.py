@@ -1,11 +1,8 @@
 import ffmpeg
-<<<<<<< HEAD
 import base64
 import audioop
-=======
 import numpy as np
 import whisper
->>>>>>> 5c613915259e88371c4363d8b7b43b6a6a11b29b
 
 model = whisper.load_model("base")
 
