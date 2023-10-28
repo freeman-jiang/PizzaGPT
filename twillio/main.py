@@ -116,7 +116,7 @@ def stream(ws):
 
                 print(f"GPT response demo: {response_message}")
                 twilio_client.calls(call_id).update(twiml=f"""<Response>
-                                                                  <Say> {response_message} </Say>
+                                                                  <Say voice="Google.en-AU-Standard-D"> {response_message} </Say>
                                                                   <Start>
                                                                     <Stream url="wss://{host}/stream" />
                                                                   </Start>
