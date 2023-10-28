@@ -23,13 +23,13 @@ url = "http://127.0.0.1:5000/make_call"
 user_prompt = input("Enter your prompt: ")
 messages: list[dict[str, str]] = [
     {"role": "user", "content": 
-    "Output one word containing LOCATION for the location of the spot where the user wants to order pizza from. The possible LOCATION are: 'PizzaPizza', 'PizzaNova', 'Dominoes'."},
+    "Output one word containing LOCATION for the location of the spot where the user wants to order pizza from. The possible LOCATION are: 'PizzaPizza', 'PizzaNova', 'Dominos'."},
     {"role": "user", "content": user_prompt}
 ]
 
 phone_numbers = {
     'PizzaNova': '+18443103300',
-    'Dominoes': '+15197452222',
+    'Dominos': '+15197452222',
     'PizzaPizza': '+15197471111',
 }
 response = openai.ChatCompletion.create(
