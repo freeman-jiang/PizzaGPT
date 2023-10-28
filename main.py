@@ -473,22 +473,23 @@ class Crawler:
         return elements_of_interest
 
 commands = [
-    # "TYPE 54 Kitchner"
-  "CLICK 68",
-  "CLICK 12",
-  "CLICK 12",
-  "CLICK 32",
-#   "TYPE 15 330 philip st",
-#   "CLICK 50",
-#   "CLICK 35",
-#   "TYPESUBMIT 30 N2L 3W9",
-#   "CLICK 23",
-#   "CLICK 23",
-#   "CLICK 24",
-#   "CLICK 60",
-#   "CLICK 88",
-#   "CLICK 57",
-  
+  "CLICK 9",
+  "TYPE 15 _330 philip st",
+  "CLICK 54",
+  "CLICK 35",
+  "TYPESUBMIT 30 N2L 3W9",
+  "CLICK 23",
+  "pause",
+  "CLICK 60",
+  "CLICK 88",
+  "CLICK 57",
+  "CLICK 114",
+  "CLICK 30",
+  "CLICK 69",
+  "CLICK 71",
+  "CLICK 60",
+  "CLICK 71"
+
 ]
 
 if (
@@ -579,9 +580,10 @@ if (
                 print("----------------\n" +
                       browser_content + "\n----------------\n")
 
+            gpt_cmd = None
             if len(commands) > 0:
                 gpt_cmd = commands.pop(0)
-            else:
+            if gpt_cmd is None or gpt_cmd == "pause":
                 gpt_cmd = input("Enter GPT command: ")
             
             if len(gpt_cmd) > 0:
