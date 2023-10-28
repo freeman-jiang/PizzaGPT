@@ -86,7 +86,7 @@ def stream(ws):
             audio = audioop.ulaw2lin(audio, 2)
             audio = audioop.ratecv(audio, 2, 1, 8000, 16000, None)[0]
 
-            print("WHISPER: ", transcribe.transcribe(audio))
+            # print("WHISPER: ", transcribe.transcribe(audio))
 
             if rec.AcceptWaveform(audio):
                 r = json.loads(rec.Result())
@@ -116,7 +116,7 @@ def stream(ws):
 
                 print(f"GPT response demo: {response_message}")
                 twilio_client.calls(call_id).update(twiml=f"""<Response>
-                                                                  <Say> ahoy: {r['text']} </Say>
+                                                                  <Say> {response_message} </Say>
                                                                   <Start>
                                                                     <Stream url="wss://{host}/stream" />
                                                                   </Start>
