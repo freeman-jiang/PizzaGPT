@@ -553,6 +553,8 @@ commands = [
   "CLICK 30",
   "CLICK 69",
   "CLICK 71",
+  "CLICK 60",
+  "CLICK 71"
 
 ]
 
