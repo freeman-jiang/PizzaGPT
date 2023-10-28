@@ -1,24 +1,32 @@
 # Download the helper library from https://www.twilio.com/docs/python/install
-import os
-from twilio.rest import Client
-from dotenv import load_dotenv
 import audioop
 import base64
+import datetime
 import json
-from flask import Flask, request
-from flask_sock import Sock, ConnectionClosed
-from twilio.twiml.voice_response import VoiceResponse, Start
-from twilio.rest import Client
+import os
+
+import openai
+import transcribe
 import vosk
+from dotenv import load_dotenv
+from flask import Flask, request
+from flask_sock import ConnectionClosed, Sock
+from twilio.rest import Client
+from twilio.twiml.voice_response import Start, VoiceResponse
+
 load_dotenv()
 
 # Set environment variables for your credentials
 # Read more at http://twil.io/secure
 
-account_sid = os.environ.get("account_sid")
-auth_token = os.environ.get("auth_token")
-twilio_client = Client(account_sid, auth_token)
+account_sid = os.environ["TWILIO_ACCOUNT_SID"]
+auth_token = os.environ["TWILIO_AUTH_TOKEN"]
+twilio_phone_number = os.environ["TWILIO_PHONE_NUMBER"]
+number_to_call = os.environ["TO_PHONE_NUMBER"]
+openai.api_key = os.environ["OPENAI_API_KEY"]
 
+
+twilio_client = Client(account_sid, auth_token)
 
 
 # print(call.sid)
@@ -33,6 +41,12 @@ BS = '\x08'
 say_queue = []
 
 host = ""
+@app.route('/')
+def health_check():
+    """Health check."""
+    return 'OK'
+
+
 @app.route('/call', methods=['POST'])
 def call():
     global host
@@ -40,6 +54,8 @@ def call():
     response = VoiceResponse()
     start = Start()
     host = request.host
+
+    # Call the stream
     start.stream(url=f'wss://{request.host}/stream')
     response.append(start)
     response.say('Please leave a message')
@@ -48,9 +64,14 @@ def call():
     return str(response), 200, {'Content-Type': 'text/xml'}
 
 
+concat_response = ""
+last_processed: datetime.datetime = datetime.datetime.now()
+
 
 @sock.route('/stream')
 def stream(ws):
+    global concat_response
+    global last_processed
     """Receive and transcribe audio stream."""
     rec = vosk.KaldiRecognizer(model, 16000)
     while True:
@@ -64,25 +85,51 @@ def stream(ws):
             audio = base64.b64decode(packet['media']['payload'])
             audio = audioop.ulaw2lin(audio, 2)
             audio = audioop.ratecv(audio, 2, 1, 8000, 16000, None)[0]
+
+            print("WHISPER: ", transcribe.transcribe(audio))
+
             if rec.AcceptWaveform(audio):
                 r = json.loads(rec.Result())
-                print(CL + r['text'] + ' ', end='', flush=True)
-                # print(call_id)
-                twilio_client.calls(call_id).update(twiml=f"""<Response>
-                                                    <Say> ahoy: {r['text']} </Say>
-                                                    <Start>
-                                                      <Stream url="wss://{host}/stream" />
-                                                    </Start>
-                                                    <Pause length="60" />
-                                                    </Response>
-                                                    """)
+                voice_response = r['text']
+                print(f"Collecting response {voice_response}")
 
-                # twilio_client.calls(call_id).update(twiml='<Response><Say>Ahoy there</Say></Response>')
+                concat_response += f" {voice_response}"
+
+                time_difference = datetime.datetime.now() - last_processed
+                if time_difference.total_seconds() <= 3:
+                    continue
+                # Only after 5 seconds, send the message to open ai
+
+                # Here's what I want to do. I do not want to spam the chat bot with many messages.
+                # You should concatenate the messages and every 5 seconds, send the whole message to open ai
+
+                response = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {"role": "system", "content": "Pretend you are a person at Communitech, which is at 151 Charles St W Suite 100, Kitchener, ON N2G 1H6. Your only objective is to order a 14-inch cheese pizza to 151 Charles St W Suite 100, Kitchener, ON N2G 1H6. You are on the phone. You will pay by cash later. Answer the pizza operator as succinctly as you can"},
+                        {"role": "user", "content": voice_response},
+
+                    ]
+                )
+
+                response_message = response["choices"][0]["message"]["content"]
+
+                print(f"GPT response demo: {response_message}")
+                twilio_client.calls(call_id).update(twiml=f"""<Response>
+                                                                  <Say> ahoy: {r['text']} </Say>
+                                                                  <Start>
+                                                                    <Stream url="wss://{host}/stream" />
+                                                                  </Start>
+                                                                  <Pause length="60" />
+                                                                  </Response>
+                                                                  """)
+                last_processed = datetime.datetime.now()
+                # print(CL + r['text'] + ' ', end='', flush=True)
 
             else:
                 r = json.loads(rec.PartialResult())
-                print(CL + r['partial'] + BS * len(r['partial']), end='', flush=True)
-        
+                print(CL + r['partial'] + BS *
+                      len(r['partial']), end='', flush=True)
 # call = twilio_client.calls.create(
 #   # url="http://demo.twilio.com/docs/voice.xml",
 #   # to="+16044411171",
@@ -98,20 +145,23 @@ def stream(ws):
 # print(f'Incoming call from {request.form["From"]}')
 # return str(response), 200, {'Content-Type': 'text/xml'}
 
-call_id = 0
+
 public_url = ""
+
 
 @app.route('/make_call', methods=['GET'])
 def make_call():
-  """Initiate a call from Twilio."""
-  call = twilio_client.calls.create(
-      to="+16044411171",  # Replace with the desired 'to' number
-      from_="+17326540954",  # Your Twilio phone number
-      url=public_url + '/call', 
-  )
-  global call_id
-  call_id = call.sid
-  return call.sid
+    """Initiate a call from Twilio."""
+    call = twilio_client.calls.create(
+        to=number_to_call,  # Replace with the desired 'to' number
+        from_=twilio_phone_number,  # Your Twilio phone number
+        url=public_url + '/call',
+    )
+
+    global call_id
+    call_id = call.sid
+    return call.sid
+
 
 if __name__ == '__main__':
     from pyngrok import ngrok
@@ -120,6 +170,6 @@ if __name__ == '__main__':
     number = twilio_client.incoming_phone_numbers.list()[0]
     number.update(voice_url=public_url + '/call')
 
-    print(f'Waiting for calls on {number.phone_number}')
-    print(public_url)
+    print(f'Waiting for calls  {number.phone_number}')
+    print(f"Listening for audio on {public_url}")
     app.run(port=port)
