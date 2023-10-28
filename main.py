@@ -48,15 +48,6 @@ Images are rendered as their alt text like this:
 		<img id=4 alt=""/>
 
 Based on your given objective, issue whatever command you believe will get you closest to achieving your goal.
-You always start on Google; you should submit a search query to Google that will take you to the best page for
-achieving your objective. And then interact with that page to achieve your objective.
-
-If you find yourself on Google and there are no search results displayed yet, you should probably issue a command 
-like "TYPESUBMIT 7 "search query"" to get to a more useful page.
-
-Then, if you find yourself on a Google search results page, you might issue the command "CLICK 24" to click
-on the first link in the search results. (If your previous command was a TYPESUBMIT your next command should
-probably be a CLICK.)
 
 Don't try to interact with elements that you can't see.
 
@@ -566,7 +557,8 @@ if (
         prompt = prompt.replace("$previous_command", previous_command)
         prompt = prompt.replace("$browser_content", browser_content[:4500])
         response = openai.ChatCompletion.create(
-              model="gpt-4",
+            #   model="gpt-4",
+              model="gpt-3.5-turbo",
               messages=[
                         {"role": "user", "content": prompt}
                   ]             
@@ -611,7 +603,7 @@ if (
 
     gpt_cmd = ""
     prev_cmd = ""
-    _crawler.go_to_page("google.com")
+    _crawler.go_to_page("pizzapizza.ca")
     try:
         while True:
             browser_content = "\n".join(_crawler.crawl())
