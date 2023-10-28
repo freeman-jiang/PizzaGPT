@@ -61,7 +61,7 @@ def stream(ws):
             audio = audioop.ulaw2lin(audio, 2)
             audio = audioop.ratecv(audio, 2, 1, 8000, 16000, None)[0]
 
-            print(transcribe.transcribe(audio))
+            print("WHISPER: ", transcribe.transcribe(audio))
 
             if rec.AcceptWaveform(audio):
                 r = json.loads(rec.Result())
