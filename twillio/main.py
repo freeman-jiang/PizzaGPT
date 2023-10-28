@@ -41,6 +41,8 @@ BS = '\x08'
 say_queue = []
 
 host = ""
+
+
 @app.route('/')
 def health_check():
     """Health check."""
@@ -66,12 +68,16 @@ def call():
 
 concat_response = ""
 last_processed: datetime.datetime = datetime.datetime.now()
+messages: list[dict[str, str]] = [
+    {"role": "system", "content": "Pretend you are a person at Communitech, which is at 151 Charles St W Suite 100, Kitchener, ON N2G 1H6. Your only objective is to order a 14-inch cheese pizza to 151 Charles St W Suite 100, Kitchener, ON N2G 1H6. You are on the phone. You will pay by cash later. Answer the pizza operator as succinctly as you can"},
+]
 
 
 @sock.route('/stream')
 def stream(ws):
     global concat_response
     global last_processed
+    global messages
     """Receive and transcribe audio stream."""
     rec = vosk.KaldiRecognizer(model, 16000)
     while True:
@@ -103,16 +109,15 @@ def stream(ws):
                 # Here's what I want to do. I do not want to spam the chat bot with many messages.
                 # You should concatenate the messages and every 5 seconds, send the whole message to open ai
 
-                response = openai.ChatCompletion.create(
+                messages.append({"role": "user", "content": concat_response})
+                generated_response = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
-                    messages=[
-                        {"role": "system", "content": "Pretend you are a person at Communitech, which is at 151 Charles St W Suite 100, Kitchener, ON N2G 1H6. Your only objective is to order a 14-inch cheese pizza to 151 Charles St W Suite 100, Kitchener, ON N2G 1H6. You are on the phone. You will pay by cash later. Answer the pizza operator as succinctly as you can"},
-                        {"role": "user", "content": voice_response},
-
-                    ]
+                    messages=messages
                 )
 
-                response_message = response["choices"][0]["message"]["content"]
+                response_message = generated_response["choices"][0]["message"]["content"]
+                messages.append(
+                    {"role": "assistant",  "content": response_message})
 
                 print(f"GPT response demo: {response_message}")
                 twilio_client.calls(call_id).update(twiml=f"""<Response>
@@ -124,6 +129,7 @@ def stream(ws):
                                                                   </Response>
                                                                   """)
                 last_processed = datetime.datetime.now()
+                break
                 # print(CL + r['text'] + ' ', end='', flush=True)
 
             else:
