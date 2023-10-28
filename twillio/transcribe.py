@@ -1,16 +1,19 @@
-import whisper
-import numpy as np
 import ffmpeg
+<<<<<<< HEAD
 import base64
 import audioop
+=======
+import numpy as np
+import whisper
+>>>>>>> 5c613915259e88371c4363d8b7b43b6a6a11b29b
 
 model = whisper.load_model("base")
 
 
 # sample_packet = {'event': 'media', 'sequenceNumber': '2', 'media': {'track': 'inbound', 'chunk': '1', 'timestamp': '111', 'payload': '/v7+/v7//////////////37/fn7/fn5+fn1+fn59fv7+/n7+/v7+/n5+/v5+fv7+/n1+fn59fv39/v7+/v79/v///////37/////fv//fn5+/v//fn5+fn5+fn5+ff7+/v5+/v5+fv7+/v5+fv79/f////////99fX7+/v5+fn7+/v7+//////5+/////35+fX7+/v7/fX1+/n7+/v5+/g=='}, 'streamSid': 'MZ028b92550b1f27f642712e00e87aab28'}
 def load_audio(file_bytes: bytes, sr: int = 16_000) -> np.ndarray:
-    from pydub import AudioSegment
     import numpy as np
+    from pydub import AudioSegment
 
     # Load the M4A audio file
     audio = AudioSegment.from_file(file_bytes, format="m4a")
