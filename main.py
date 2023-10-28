@@ -550,7 +550,7 @@ commands = [
 #   "CLICK 60",
 #   "CLICK 88",
 #   "CLICK 57",
-  
+
 ]
 
 if (
@@ -573,20 +573,19 @@ if (
         prompt = prompt.replace("$browser_content", browser_content[:4500])
         response = openai.ChatCompletion.create(
             #   model="gpt-4",
-              model="gpt-3.5-turbo",
-              messages=[
-                        {"role": "user", "content": prompt}
-                  ]             
-                )
+            model="gpt-3.5-turbo",
+            messages=[
+                  {"role": "user", "content": prompt}
+            ]
+        )
         # response = openai.Completion.create(model="text-davinci-002", prompt=prompt, temperature=0.5, best_of=10, n=3,
-                                            # max_tokens=50)
+        # max_tokens=50)
         print(response)
         msg = response.choices[0].message.content
 
         return msg
 
     def run_cmd(cmd):
-        print("Running cmd", cmd)
         cmd = cmd.split("\n")[0]
 
         if cmd.startswith("SCROLL UP"):
@@ -596,7 +595,6 @@ if (
         elif cmd.startswith("CLICK"):
             commasplit = cmd.split(",")
             id = commasplit[0].split(" ")[1]
-            print("Clicking", id)
             _crawler.click(id)
         elif cmd.startswith("TYPE"):
             spacesplit = cmd.split(" ")
@@ -620,7 +618,8 @@ if (
 
     gpt_cmd = ""
     prev_cmd = ""
-    _crawler.go_to_page("https://www.dominos.ca/en/pages/order/#!/locations/search/")
+    _crawler.go_to_page(
+        "https://www.dominos.ca/en/pages/order/#!/locations/search/")
     try:
         while True:
             browser_content = "\n".join(_crawler.crawl())
@@ -632,16 +631,17 @@ if (
             if not quiet:
                 print("URL: " + _crawler.page.url)
                 print("Objective: " + objective)
+                print("CURRENT BROWSER CONTENT:")
                 print("----------------\n" +
                       browser_content + "\n----------------\n")
 
             if len(commands) > 0:
                 gpt_cmd = commands.pop(0)
             else:
-                gpt_cmd = input("Enter GPT command: ")
-            
+                gpt_cmd = input()
             if len(gpt_cmd) > 0:
-                print("Suggested command: " + gpt_cmd)
+                print("YOUR COMMAND: " + gpt_cmd)
+                # print("Suggested command: " + gpt_cmd)
 
             command = ""
             # command = input()
