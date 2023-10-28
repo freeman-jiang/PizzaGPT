@@ -19,16 +19,18 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 
 url = "http://127.0.0.1:5000/make_call"
 
+
+user_prompt = input("Enter your prompt: ")
 messages: list[dict[str, str]] = [
     {"role": "user", "content": 
-    "Output one word containing LOCATION for the location of the spot where the user wants to order pizza from. The possible LOCATION are: 'Pizza Pizza', 'Pizza Nova', 'Dominoes'."},
-    {"role": "user", "content": "I'd like to order a pizza from domino"}
+    "Output one word containing LOCATION for the location of the spot where the user wants to order pizza from. The possible LOCATION are: 'PizzaPizza', 'PizzaNova', 'Dominoes'."},
+    {"role": "user", "content": user_prompt}
 ]
 
 phone_numbers = {
-    'Pizza Nova': '+18443103300',
+    'PizzaNova': '+18443103300',
     'Dominoes': '+15197452222',
-    'Pizza Pizza': '+15197471111',
+    'PizzaPizza': '+15197471111',
 }
 response = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
