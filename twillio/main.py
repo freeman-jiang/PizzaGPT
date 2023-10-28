@@ -69,7 +69,7 @@ concat_response = ""
 last_processed: datetime.datetime = datetime.datetime.now()
 messages: list[dict[str, str]] = [
     {"role": "system", "content": "You are talking to a pizza operator over the phone"},
-    {"role": "user", "content": "You are a person at Communitech, which is an office space at 151 Charles Street West, Suite 100. You are on the phone. You will pay by cash later. Answer the pizza operator as succinctly as you can. In your first message, please say explicitly that you want to want to order the pizza to Communitech and state the address. Remember, you are not the pizza operator. You are trying to order pizza. Only order a pizza and no other add ons. Do not give up, order the pizza at all costs, being flexible when needed."},
+    {"role": "user", "content": "You are a person at Communitech, which is an office space at 151 Charles Street West, Suite 100. You are on the phone. You will pay by cash later. Your phone number is 604-441-1171. Answer the pizza operator as succinctly as you can. In your first message, please say explicitly that you want to want to order the pizza to Communitech and state the address. Remember, you are not the pizza operator. You are trying to order pizza. Only order a pizza and no other add ons. Do not give up, order the pizza at all costs, being flexible when needed."},
 ]
 
 
@@ -163,7 +163,8 @@ def make_call():
 
     print(f"Location {location} phone {phone}")
     call = twilio_client.calls.create(
-        to=number_to_call,  # Replace with the desired 'to' number
+        # to=number_to_call,  # Replace with the desired 'to' number
+        to="+" + phone,  # Replace with the desired 'to' number
         from_=twilio_phone_number,  # Your Twilio phone number
         url=public_url + '/call',
     )
