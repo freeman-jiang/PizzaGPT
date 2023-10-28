@@ -19,12 +19,7 @@ account_sid = os.environ.get("account_sid")
 auth_token = os.environ.get("auth_token")
 twilio_client = Client(account_sid, auth_token)
 
-# call = client.calls.create(
-#   url="http://demo.twilio.com/docs/voice.xml",
-#   # to="+16044411171",
-#   to="+16138794088",
-#   from_="+17326540954"
-# )
+
 
 # print(call.sid)
 
@@ -70,7 +65,31 @@ def stream(ws):
             else:
                 r = json.loads(rec.PartialResult())
                 print(CL + r['partial'] + BS * len(r['partial']), end='', flush=True)
+# call = twilio_client.calls.create(
+#   # url="http://demo.twilio.com/docs/voice.xml",
+#   # to="+16044411171",
+#   to="+16138794088",
+#   from_="+17326540954",
+# )
+# response = VoiceResponse()
+# start = Start()
+# start.stream(url=f'wss://{request.host}/stream')
+# response.append(start)
+# response.say('Please leave a message')
+# response.pause(length=60)
+# print(f'Incoming call from {request.form["From"]}')
+# return str(response), 200, {'Content-Type': 'text/xml'}
 
+public_url = ""
+@app.route('/make_call', methods=['GET'])
+def make_call():
+  """Initiate a call from Twilio."""
+  call = twilio_client.calls.create(
+      to="+16044411171",  # Replace with the desired 'to' number
+      from_="+17326540954",  # Your Twilio phone number
+      url=public_url + '/call', 
+  )
+  return call.sid
 
 if __name__ == '__main__':
     from pyngrok import ngrok
@@ -78,7 +97,7 @@ if __name__ == '__main__':
     public_url = ngrok.connect(port, bind_tls=True).public_url
     number = twilio_client.incoming_phone_numbers.list()[0]
     number.update(voice_url=public_url + '/call')
+
     print(f'Waiting for calls on {number.phone_number}')
     print(public_url)
-
     app.run(port=port)
