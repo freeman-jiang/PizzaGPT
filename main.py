@@ -4,10 +4,14 @@
 #
 
 from playwright.sync_api import sync_playwright
-import time
-from sys import argv, exit, platform
 import openai
+from sys import argv, exit, platform
+import time
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 quiet = False
 if len(argv) >= 2:
@@ -236,10 +240,10 @@ class Crawler:
         document_offset_height = page.evaluate("document.body.offsetHeight")
         document_scroll_height = page.evaluate("document.body.scrollHeight")
 
-        #		percentage_progress_start = (win_upper_bound / document_scroll_height) * 100
-        #		percentage_progress_end = (
-        #			(win_height + win_upper_bound) / document_scroll_height
-        #		) * 100
+        # percentage_progress_start = (win_upper_bound / document_scroll_height) * 100
+        # percentage_progress_end = (
+        # (win_height + win_upper_bound) / document_scroll_height
+        # ) * 100
         percentage_progress_start = 1
         percentage_progress_end = 2
 
@@ -248,7 +252,8 @@ class Crawler:
                 "x": 0,
                 "y": 0,
                 "text": "[scrollbar {:0.2f}-{:0.2f}%]".format(
-                    round(percentage_progress_start, 2), round(percentage_progress_end)
+                    round(percentage_progress_start, 2), round(
+                        percentage_progress_end)
                 ),
             }
         )
@@ -385,10 +390,10 @@ class Crawler:
             elem_lower_bound = y + height
 
             partially_is_in_viewport = (
-                    elem_left_bound < win_right_bound
-                    and elem_right_bound >= win_left_bound
-                    and elem_top_bound < win_lower_bound
-                    and elem_lower_bound >= win_upper_bound
+                elem_left_bound < win_right_bound
+                and elem_right_bound >= win_left_bound
+                and elem_top_bound < win_lower_bound
+                and elem_lower_bound >= win_upper_bound
             )
 
             if not partially_is_in_viewport:
@@ -398,7 +403,8 @@ class Crawler:
 
             # inefficient to grab the same set of keys for kinds of objects but its fine for now
             element_attributes = find_attributes(
-                attributes[index], ["type", "placeholder", "aria-label", "title", "alt"]
+                attributes[index], ["type", "placeholder",
+                                    "aria-label", "title", "alt"]
             )
 
             ancestor_exception = is_ancestor_of_anchor or is_ancestor_of_button
@@ -424,7 +430,8 @@ class Crawler:
                 })
             else:
                 if (
-                        node_name == "input" and element_attributes.get("type") == "submit"
+                        node_name == "input" and element_attributes.get(
+                            "type") == "submit"
                 ) or node_name == "button":
                     node_name = "button"
                     element_attributes.pop(
@@ -546,13 +553,11 @@ if (
     _crawler = Crawler()
     openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-
     def print_help():
         print(
             "(g) to visit url\n(u) scroll up\n(d) scroll down\n(c) to click\n(t) to type\n" +
             "(h) to view commands again\n(r/enter) to run suggested command\n(o) change objective"
         )
-
 
     def get_gpt_command(objective, url, previous_command, browser_content):
         prompt = prompt_template
@@ -563,7 +568,6 @@ if (
         response = openai.Completion.create(model="text-davinci-002", prompt=prompt, temperature=0.5, best_of=10, n=3,
                                             max_tokens=50)
         return response.choices[0].text
-
 
     def run_cmd(cmd):
         cmd = cmd.split("\n")[0]
@@ -590,7 +594,6 @@ if (
 
         time.sleep(2)
 
-
     objective = "Make a reservation for 2 at 7pm at bistro vida in menlo park"
     print("\nWelcome to natbot! What is your objective?")
     i = input()
@@ -604,13 +607,15 @@ if (
         while True:
             browser_content = "\n".join(_crawler.crawl())
             prev_cmd = gpt_cmd
-            gpt_cmd = get_gpt_command(objective, _crawler.page.url, prev_cmd, browser_content)
+            gpt_cmd = get_gpt_command(
+                objective, _crawler.page.url, prev_cmd, browser_content)
             gpt_cmd = gpt_cmd.strip()
 
             if not quiet:
                 print("URL: " + _crawler.page.url)
                 print("Objective: " + objective)
-                print("----------------\n" + browser_content + "\n----------------\n")
+                print("----------------\n" +
+                      browser_content + "\n----------------\n")
             if len(gpt_cmd) > 0:
                 print("Suggested command: " + gpt_cmd)
 
