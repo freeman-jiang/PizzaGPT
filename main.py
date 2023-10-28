@@ -611,7 +611,7 @@ if (
 
     gpt_cmd = ""
     prev_cmd = ""
-    _crawler.go_to_page("google.com")
+    _crawler.go_to_page("google.com/search?q=pizza")
     try:
         while True:
             browser_content = "\n".join(_crawler.crawl())
