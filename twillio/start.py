@@ -33,11 +33,11 @@ phone_numbers = {
     'PizzaPizza': '+15197471111',
 }
 
-# phone_numbers = {
-#     'PizzaNova': '12365187890',
-#     'Dominos': '12365187890',
-#     'PizzaPizza': '12365187890',
-# }
+phone_numbers = {
+    'PizzaNova': '12365187890',
+    'Dominos': '12365187890',
+    'PizzaPizza': '12365187890',
+}
 response = openai.ChatCompletion.create(
                     model="gpt-3.5-turbo",
                     messages=messages
