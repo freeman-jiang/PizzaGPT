@@ -60,7 +60,6 @@ def call():
     # Call the stream
     start.stream(url=f'wss://{request.host}/stream')
     response.append(start)
-    response.say('Please leave a message')
     response.pause(length=60)
     print(f'Incoming call from {request.form["From"]}')
     return str(response), 200, {'Content-Type': 'text/xml'}
@@ -70,7 +69,7 @@ concat_response = ""
 last_processed: datetime.datetime = datetime.datetime.now()
 messages: list[dict[str, str]] = [
     {"role": "system", "content": "You are talking to a pizza operator over the phone"},
-    {"role": "user", "content": "You are a person at Communitech, which is an office space at 151 Charles Street West, Suite 100. You are on the phone. You will pay by cash later. Answer the pizza operator as succinctly as you can. In your first message, please say explicitly that you want to want to order the pizza to Communitech and state the address. Remember, you are not the pizza operator. You are trying to order pizza."},
+    {"role": "user", "content": "You are a person at Communitech, which is an office space at 151 Charles St W Suite 100. You are on the phone. You will pay by cash later. Answer the pizza operator as succinctly as you can. In your first message, please say explicitly that you want to want to order the pizza to Communitech and state the address. You are NOT the pizza operator, you are the person ordering the pizza. Only order a pizza and no other add ons. Do not give up, order the pizza at all costs, being flexible when needed."},
 ]
 
 
