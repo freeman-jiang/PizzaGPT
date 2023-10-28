@@ -10,6 +10,7 @@ from flask_sock import Sock, ConnectionClosed
 from twilio.twiml.voice_response import VoiceResponse, Start
 from twilio.rest import Client
 import vosk
+import transcribe
 load_dotenv()
 
 # Set environment variables for your credentials
@@ -59,6 +60,9 @@ def stream(ws):
             audio = base64.b64decode(packet['media']['payload'])
             audio = audioop.ulaw2lin(audio, 2)
             audio = audioop.ratecv(audio, 2, 1, 8000, 16000, None)[0]
+
+            print(transcribe.transcribe(audio))
+
             if rec.AcceptWaveform(audio):
                 r = json.loads(rec.Result())
                 print(CL + r['text'] + ' ', end='', flush=True)
@@ -85,8 +89,8 @@ public_url = ""
 def make_call():
   """Initiate a call from Twilio."""
   call = twilio_client.calls.create(
-      to="+16044411171",  # Replace with the desired 'to' number
-      from_="+17326540954",  # Your Twilio phone number
+      to="+12365187890",  # Replace with the desired 'to' number
+      from_="+15812040089",  # Your Twilio phone number
       url=public_url + '/call', 
   )
   return call.sid
