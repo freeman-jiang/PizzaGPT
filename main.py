@@ -565,9 +565,18 @@ if (
         prompt = prompt.replace("$url", url[:100])
         prompt = prompt.replace("$previous_command", previous_command)
         prompt = prompt.replace("$browser_content", browser_content[:4500])
-        response = openai.Completion.create(model="text-davinci-002", prompt=prompt, temperature=0.5, best_of=10, n=3,
-                                            max_tokens=50)
-        return response.choices[0].text
+        response = openai.ChatCompletion.create(
+              model="gpt-4",
+              messages=[
+                        {"role": "user", "content": prompt}
+                  ]             
+                )
+        # response = openai.Completion.create(model="text-davinci-002", prompt=prompt, temperature=0.5, best_of=10, n=3,
+                                            # max_tokens=50)
+        print(response)
+        msg = response.choices[0].message.content
+
+        return msg
 
     def run_cmd(cmd):
         cmd = cmd.split("\n")[0]
