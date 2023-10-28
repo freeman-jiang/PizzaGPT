@@ -58,10 +58,11 @@ def call():
     host = request.host
 
     # Call the stream
+    response.say("I am an artificial intelligence agent built at a computer competition. My objective is to order pizza. I will respond to the best of my abilities but I may have some problems. Sorry for the trouble! We will tip extra.", voice="Google.en-AU-Standard-D")
     start.stream(url=f'wss://{request.host}/stream')
     response.append(start)
-    response.pause(length=60)
     print(f'Incoming call from {request.form["From"]}')
+    response.pause(length=1000)
     return str(response), 200, {'Content-Type': 'text/xml'}
 
 
