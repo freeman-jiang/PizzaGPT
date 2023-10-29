@@ -6,7 +6,6 @@ import json
 import os
 
 import openai
-import transcribe
 import vosk
 from dotenv import load_dotenv
 from flask import Flask, request
