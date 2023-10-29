@@ -35,11 +35,6 @@ phone_numbers = {
     'pizzapizza': '+15197471111',
 }
 
-phone_numbers = {
-    'PizzaNova': '16044411171',
-    'Dominos': '16044411171',
-    'PizzaPizza': '16044411171',
-}
 
 
 # response = openai.ChatCompletion.create(
