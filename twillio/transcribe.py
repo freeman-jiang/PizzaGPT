@@ -46,11 +46,10 @@ def writemp3(f, sr, x, normalized=True):
 
 
 total = None
-for packet in packets[0:30]:
+for packet in packets:
     if 'media' in packet:
         audio = base64.b64decode(packet['media']['payload'])
         audio = audioop.ulaw2lin(audio, 2)
-        audio = audioop.ratecv(audio, 2, 1, 8000, 16000, None)[0]
 
         if total is None:
             total = audio
@@ -59,10 +58,20 @@ for packet in packets[0:30]:
         # total.append(audio)
 
 
-total = to_ndarray(total)
-writemp3('out.mp3', 16000, total)
-print(total, len(total))
-print(transcribe(total))
+audio_segment = AudioSegment(
+    total,
+    frame_rate=8000,  # Sample rate
+    sample_width=2,    # Bytes per sample (16-bit)
+    channels=1         # Mono or 2 for stereo
+)
 
+# # Save the audio as an MP3 file
+# output_file = "concatenated_audio.mp3"
+# audio_segment.export(output_file, format="mp3")
+
+print(total, len(total))
+print(transcribe(to_ndarray(total)))
+
+print(model.transcribe('concatenated_audio.mp3'))
 # audio = transcribe(audio)
 # print(audio)

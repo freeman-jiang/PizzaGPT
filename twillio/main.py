@@ -14,6 +14,7 @@ from flask_sock import ConnectionClosed, Sock
 from twilio.rest import Client
 from twilio.twiml.voice_response import Start, VoiceResponse
 
+
 load_dotenv()
 
 # Set environment variables for your credentials
@@ -79,8 +80,10 @@ def stream(ws):
     global concat_response
     global last_processed
     global messages
+    total = None
     """Receive and transcribe audio stream."""
     rec = vosk.KaldiRecognizer(model, 16000)
+    log = open("log.txt", "w")
     while True:
         message = ws.receive()
         packet = json.loads(message)
@@ -91,7 +94,13 @@ def stream(ws):
         elif packet['event'] == 'media':
             audio = base64.b64decode(packet['media']['payload'])
             audio = audioop.ulaw2lin(audio, 2)
-            audio = audioop.ratecv(audio, 2, 1, 8000, 16000, None)[0]
+            # audio = audioop.ratecv(audio, 2, 1, 8000, 16000, None)[0]
+
+            if total is None:
+                total = audio
+            else:
+                total += audio
+
 
             # print("WHISPER: ", transcribe.transcribe(audio))
 

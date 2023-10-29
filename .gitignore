@@ -8,3 +8,4 @@ imggpt
 LLaVA
 .env
 model
+.venv
