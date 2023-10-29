@@ -1,4 +1,7 @@
 # PizzaGPT
+
+[![video image](https://img.youtube.com/vi/1xD6bVu4fQ8/0.jpg)](https://www.youtube.com/watch?v=1xD6bVu4fQ8)
+
 ## What it does
 Hungry for pizza? Simply instruct PizzaGPT, and it will automatically place a call to a local pizzeria near you, conversing with real humans to arrange your order. 
 
