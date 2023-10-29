@@ -36,10 +36,16 @@ phone_numbers = {
 }
 
 phone_numbers = {
-    'pizzanova': '16138794088',
-    'dominos': '16138794088',
-    'pizzapizza': '16138794088',
+    'PizzaNova': '16044411171',
+    'Dominos': '16044411171',
+    'PizzaPizza': '16044411171',
 }
+
+
+# response = openai.ChatCompletion.create(
+#     model="gpt-3.5-turbo",
+#     messages=messages
+# )
 
 lc = '\n'.join([x['content'] for x in messages])
 print("Prompt", lc)

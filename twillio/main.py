@@ -58,8 +58,8 @@ def call():
     start = Start()
     host = request.host
 
-    # Call the stream
-    response.say("I am an artificial intelligence agent built at a computer competition. My objective is to order pizza. I will respond to the best of my abilities but I may have some problems. Sorry for the trouble! We will tip extra.", voice="Google.en-AU-Standard-D")
+    response.pause(length=2)
+
     start.stream(url=f'wss://{request.host}/stream')
     response.append(start)
     print(f'Incoming call from {request.form["From"]}')
@@ -71,7 +71,7 @@ concat_response = ""
 last_processed: datetime.datetime = datetime.datetime.now()
 messages: list[dict[str, str]] = [
     {"role": "system", "content": "You are talking to a pizza operator over the phone"},
-    {"role": "user", "content": "You are a person at Communitech, which is an office space at 151 Charles Street West, Suite 100. You are on the phone. You will pay by cash later. Your phone number is 604-441-1171. Answer the pizza operator as succinctly as you can. In your first message, please say explicitly that you want to want to order the pizza to Communitech and state the address. Remember, you are not the pizza operator. You are trying to order pizza. Only order a pizza and no other add ons. Do not give up, order the pizza at all costs, being flexible when needed."},
+    {"role": "user", "content": "Your name is Henry and you are a person at Communitech, which is an office space at 151 Charles Street West, Suite 100. You are on the phone and you want to order a regular cheese pizza. You will pay by cash later. Your phone number is 604-441-1171. Answer the pizza operator as succinctly as you can. In your first message, please say explicitly that you want to want to order the pizza to Communitech and state the address. Remember, you are not the pizza operator. You are trying to order pizza. Only order a pizza and no other add ons. Do not give up, order the pizza at all costs. Do not ask for more information, for instance what options they have. You do not want any toppings except for cheese. You do not want any drinks. You do not want any promotions. You only want a cheese pizza and that is it."},
 ]
 
 
